@@ -1,15 +1,8 @@
-import {
-  Typography,
-  Card,
-  Button,
-  ButtonGroup,
-  Badge,
-} from "@material-tailwind/react";
+import { Typography, Card } from "@material-tailwind/react";
 import StoreData from "../Data/StoreData.json";
-import CardItems from "../Components/CardItems";
+import CardItems from "../Components/StoreItems";
 
 const Store = () => {
-  const quantity: number = 0;
   return (
     <main className="lg:px-[6rem] md:px-[2rem] px-[1rem] py-6 bg-gray-100 grid place-content-center w-full">
       <section>
@@ -20,22 +13,6 @@ const Store = () => {
           return (
             <Card key={index} className="mt-6 w-96">
               <CardItems {...item} />
-              {quantity === 0 ? (
-                <Button>+ Add to Cart</Button>
-              ) : (
-                <div>
-                  <ButtonGroup
-                    variant="text"
-                    ripple={false}
-                    size="lg"
-                    fullWidth
-                  >
-                    <Button className="text-red-500">-</Button>
-                    <Button>1 in cart</Button>
-                    <Button className="text-green-500">+</Button>
-                  </ButtonGroup>
-                </div>
-              )}
             </Card>
           );
         })}

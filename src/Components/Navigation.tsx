@@ -6,8 +6,10 @@ import {
   Badge,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useShopingCart } from "../Context/ShopingCartContext";
 
 const Navigation: FC = () => {
+  const { openCart, cartQuantity } = useShopingCart()
   return (
     <Navbar className="sticky container mx-auto top-0 z-10 h-max max-w-full items-center justify-between rounded-none flex text-black">
       <Typography
@@ -42,11 +44,22 @@ const Navigation: FC = () => {
         >
           <Link to="/about">About</Link>
         </Typography>
-        <Badge content='5' overlap="circular" placement="bottom-end" withBorder>
-          <IconButton className="rounded-full text-lg" variant="outlined">
-            <i className="fa-solid fa-store" />
-          </IconButton>
-        </Badge>
+        {cartQuantity > 0 && (
+          <Badge
+            content="5"
+            overlap="circular"
+            placement="bottom-end"
+            withBorder
+          >
+            <IconButton
+              onClick={openCart}
+              className="rounded-full text-lg"
+              variant="outlined"
+            >
+              <i className="fa-solid fa-store" />
+            </IconButton>
+          </Badge>
+        )}
       </ul>
     </Navbar>
   );
