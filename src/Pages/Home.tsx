@@ -1,0 +1,20 @@
+import { Typography } from "@material-tailwind/react";
+
+const Home = () => {
+  return (
+    <main className="lg:mx-[6rem] md:mx-[2rem] mx-[1rem] my-6">
+      <section>
+        <Typography variant='h1'>
+          Home
+        </Typography>
+      </section>
+      <section>
+        <Typography variant='h1'>
+          Coming Soon...
+        </Typography>
+      </section>
+    </main>
+  );
+};
+
+export default Home;
