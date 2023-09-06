@@ -1,77 +1,70 @@
 import {
+  Collapse,
+  Button,
   Card,
   Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-  Chip,
+  CardBody
 } from "@material-tailwind/react";
-import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
-} from "@heroicons/react/24/solid";
 
-export function ShopingCart() {
+import { useShopingCart } from "../Context/ShopingCartContext";
+import CartItemsAside from "./CartItemsAside";
+import formatCurrency from "../Utilities/formatCurrency";
+import StoreData from "../Data/StoreData.json";
+
+type ShopingCartProps = {
+  isOpen: boolean;
+};
+
+export function ShopingCart({ isOpen }: ShopingCartProps) {
+  const { closeCart, cartItems } = useShopingCart();
   return (
-    <Card className={`h-screen fixed z-20 top-0 right-0 bottom-0 w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5`}>
-      <div className="mb-2 p-4 flex justify-between items-center">
-        <Typography variant="h5" color="blue-gray">
-          Shoping Cart
-        </Typography>
-        <Typography className="font-bold text-2xl cursor-pointer text-red-500">x</Typography>
-      </div>
-      <List>
-        <ListItem>
-          <ListItemPrefix>
-            <PresentationChartBarIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Dashboard
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <ShoppingBagIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          E-Commerce
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <InboxIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip
-              value="14"
-              size="sm"
-              variant="ghost"
-              color="blue-gray"
-              className="rounded-full"
-            />
-          </ListItemSuffix>
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Profile
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Settings
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Log Out
-        </ListItem>
-      </List>
-    </Card>
+    <Collapse
+      className="fixed top-0 z-50 backdrop-blur-sm flex justify-end"
+      open={isOpen}
+    >
+      <Card className="w-5/12 h-screen py-[1%]">
+        <CardBody className="flex flex-col gap-y-8">
+          <div className="flex justify-between items-center">
+            <Typography variant="h3">Your cart</Typography>
+            <Button
+              onClick={closeCart}
+              variant="text"
+              className="flex items-center gap-2"
+            >
+              Back{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </Button>
+          </div>
+          <div className="grid gap-y-6">
+            {cartItems.map((item) => (
+                <CartItemsAside key={item.id} {...item} />
+            ))}
+            <div>
+              <Typography variant="h3" className="font-semibold text-right">
+                Total{" "}
+                {formatCurrency(cartItems.reduce((total, cartItem)=> {
+                  const item = StoreData.find((item) => item.id === cartItem.id);
+                  return total + (item?.price || 0) * cartItem.quantity 
+                }, 0)
+                )}
+              </Typography>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+    </Collapse>
   );
 }

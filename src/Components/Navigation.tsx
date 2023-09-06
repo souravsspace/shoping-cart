@@ -46,7 +46,7 @@ const Navigation: FC = () => {
         </Typography>
         {cartQuantity > 0 && (
           <Badge
-            content="5"
+            content={cartQuantity}
             overlap="circular"
             placement="bottom-end"
             withBorder

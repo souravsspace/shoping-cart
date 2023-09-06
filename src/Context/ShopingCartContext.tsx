@@ -9,6 +9,7 @@ type shopingCartContext = {
   getItemQuantity: (id: number) => number;
   increaseItemQuantity: (id: number) => void;
   decreaseItemQuantity: (id: number) => void;
+  removeFromCart: (id: number) => void;
 
   openCart: () => void;
   closeCart: () => void;
@@ -86,10 +87,11 @@ export function ShopingCartProvider({ children }: ShopingCartProviderProps) {
         cartQuantity,
         openCart,
         closeCart,
+        removeFromCart: decreaseItemQuantity,
       }}
     >
       {children}
-      <ShopingCart />
+      <ShopingCart isOpen={isOpen} />
     </shopingCartContext.Provider>
   );
 }
